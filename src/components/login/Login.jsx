@@ -2,11 +2,29 @@ import React, { useState } from "react";
 import "./login.css";
 import { AiOutlineMail, AiOutlineLock } from "react-icons/ai";
 import { BsArrowRight } from "react-icons/bs";
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
+
+  const postData = async () => {
+    let data = { name: email, password: password };
+    try {
+      await axios.post(
+        "http://94.23.80.228:8000/pos/login/",
+        { name: data.name, password: data.password },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    } catch (error) {
+      console.log({ error: error });
+    }
+  };
 
   const isEmailValid = (email) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -29,6 +47,7 @@ const Login = () => {
       alert("Please provide a valid email address.");
     } else {
       alert(`Congratulations ${email}! You have successfully logged in.`);
+      postData();
       setEmail("");
       setPassword("");
       setEmailError("");
