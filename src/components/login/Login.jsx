@@ -25,12 +25,16 @@ const Login = () => {
   };
 
   const handleSubmit = () => {
-    alert(`congratulation ${email} Your succussfuly logged in!`);
-    setEmail("");
-    setPassword("");
-    setEmailError("");
+    if (!isEmailValid(email)) {
+      alert("Please provide a valid email address.");
+    } else {
+      alert(`Congratulations ${email}! You have successfully logged in.`);
+      setEmail("");
+      setPassword("");
+      setEmailError("");
+    }
   };
-  console.log(emailError);
+
   return (
     <div className="main__container">
       {/* image section */}
@@ -59,6 +63,7 @@ const Login = () => {
               />
               <AiOutlineMail className="icon__box" />
             </span>
+            {emailError && <p className="error">{emailError}</p>}
           </div>
           <div className="input_container">
             <span>
@@ -79,7 +84,7 @@ const Login = () => {
           <button className="btn" onClick={handleSubmit}>
             Sign in <BsArrowRight />
           </button>
-          <p className="last__p">Not a member signup.</p>
+          <p className="last__p">Not a member? Sign up.</p>
         </div>
       </div>
     </div>
